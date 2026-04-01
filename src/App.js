@@ -22,7 +22,7 @@ function App() {
   };
 
   return (
-    <div className="App-header">
+    <div className="min-h-screen min-w-screen bg-neutral-900 text-amber-500 font-barlow">
       <Header/>
       <Menu onAddItem={addItem}/>
       {items.map( item => (<OneItem key={item.id} isWeapon={item.weapon} isArtifact={item.artifact}/>))}

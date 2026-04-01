@@ -8,13 +8,15 @@ function App() {
   const [items, setItems] = useState([]);
   const [nextId, setNextId] = useState(1);
 
-  const addItem = (itemType, isArtifact) => {
+  const addItem = (itemType, isArtifact, tier, enchant) => {
     setItems(prevItems => [
       ...prevItems,
       {
         id: nextId,
         itemType: itemType,
-        artifact: isArtifact
+        artifact: isArtifact,
+        tier: tier,
+        enchant: enchant
       }
     ]);
 
@@ -25,9 +27,11 @@ function App() {
     <div className="min-h-screen min-w-screen bg-neutral-900 text-amber-500 font-barlow">
       <Header/>
       <Menu onAddItem={addItem}/>
-      {items.map( item => (
-        <OneItem key={item.id} itemType={item.itemType} isArtifact={item.artifact}/>
-      ))}
+      <div className="flex flex-row flex-wrap gap-4 mx-8 justify-center">
+        {items.map( item => (
+          <OneItem key={item.id} itemType={item.itemType} isArtifact={item.artifact} tier={item.tier} enchant={item.enchant}/>
+        ))}
+      </div>
     </div>
   );
 }

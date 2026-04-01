@@ -3,9 +3,11 @@ import { useState } from "react";
 function Menu({ onAddItem }) {
   const [itemType, setItemType] = useState("weapon");
   const [isArtifact, setIsArtifact] = useState(false);
+  const [tier, setTier] = useState(4);
+  const [enchant, setEnchant] = useState(0);
 
   return (
-    <div className="flex flex-row justify-center items-center pb-3 gap-x-8">
+    <div className="flex flex-row justify-center pb-3 gap-x-8">
       <select
         value={itemType}
         onChange={(e) => setItemType(e.target.value)}
@@ -16,7 +18,7 @@ function Menu({ onAddItem }) {
         <option value="bag">Bag/Cape</option>
       </select>
 
-      <label className="rounded-lg px-2 py-1 border border-amber-500 flex items-center gap-2">
+      <label className="rounded-lg px-2 py-1 border border-amber-500 flex flex-row items-center gap-2">
         Artifact
         <input
           type="checkbox"
@@ -26,7 +28,42 @@ function Menu({ onAddItem }) {
         />
       </label>
 
-      <button onClick={() => onAddItem(itemType, isArtifact)}>Add Item</button>
+      <label className="flex flex-row items-center gap-2">
+        Tier:
+        <select
+          value={tier}
+          onChange={(e) => setTier(e.target.value)}
+          className="rounded-lg px-2 py-1 border border-amber-500 bg-neutral-900 self-stretch"
+        >
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+        </select>
+      </label>
+
+      <label className="flex flex-row items-center gap-2">
+        Enchant:
+        <select
+          value={enchant}
+          onChange={(e) => setEnchant(e.target.value)}
+          className="rounded-lg px-2 py-1 border border-amber-500 bg-neutral-900 self-stretch"
+        >
+          <option value="0">0</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </label>
+
+      <button
+        onClick={() => onAddItem(itemType, isArtifact, tier, enchant)}
+        className="rounded-lg px-2 py-1 border border-black bg-green-500 text-black hover:bg-green-100 hover:text-black transition-colors"
+      >
+        Add Item
+      </button>
     </div>
   );
 }

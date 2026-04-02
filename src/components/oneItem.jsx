@@ -70,8 +70,52 @@ function OneItem({ itemType, isArtifact, tier, enchant }) {
   const res1AmountTotal = res1Amount * craftingAmount;
   const res2AmountTotal = res2Amount * craftingAmount;
 
-  const res1AmountTotalWithReturnRate = null; //need math for this, ask chatGPT
-  const res2AmountTotalWithReturnRate = null;
+  // simulates and calculates worst case scenarion of how many times you need to press "craft" in-game
+  const craftSimulationWorstCase = () => {
+    if (craftingAmount <= 1) return [];
+    let productionOutput = 1 / (1 - returnRateDecimal);
+    let x = Math.ceil(res1AmountTotal / productionOutput);
+    let y = Math.ceil(res2AmountTotal / productionOutput);
+    let xr = x; // res 1 required
+    let yr = y; // res 2 required
+    let cat = Math.floor(x / res1Amount); // crafting amount temporary
+    let csum = 0;
+    let pressCount = 0; // craft button press counter
+    console.log(x, y);
+
+    while (x >= res1Amount && y >= res2Amount) {
+      pressCount++;
+      if (cat >= 40) {
+        while (cat >= 40) {
+          csum += 40;
+          console.log("meow");
+          x -= Math.floor(res1Amount * 40 * (1 - returnRateDecimal));
+          y -= Math.floor(res2Amount * 40 * (1 - returnRateDecimal));
+          console.log(x, y);
+          cat -= 40;
+        }
+      }
+      else {
+        csum += cat;
+        x -= Math.floor(res1Amount * cat * (1 - returnRateDecimal));
+        y -= Math.floor(res2Amount * cat * (1 - returnRateDecimal));
+        console.log(x, y);
+        cat = Math.floor(x / res1Amount);
+      }
+    }
+    console.log(pressCount, csum);
+    while (csum < craftingAmount) {
+      pressCount++;
+      csum++;
+      xr += res1Amount - x;
+      yr += res2Amount - y;
+    }
+    console.log(xr, yr);
+    return [xr, yr, pressCount];
+  };
+ 
+  const [res1AmountTotalWithReturnRate, res2AmountTotalWithReturnRate, buttonPressAmount] = 
+    craftingAmount <= 1 ? [res1Amount, res2Amount, 1] : craftSimulationWorstCase();
 
   // extra displayed values:
   
@@ -298,13 +342,46 @@ function OneItem({ itemType, isArtifact, tier, enchant }) {
 
         <hr className="border-t w-full border-zinc-500 mb-1" />
         
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
+        <div className="relative group flex flex-row gap-2 justify-center items-center mb-1">
           <label>RRR:</label>
           <div className="text-amber-300">
             {`${requiredReturnRate}`}
           </div>
+          <span className="absolute top-full left-1/2 -translate-x-1/2 mt-1
+            opacity-0 group-hover:opacity-100
+            transition-opacity duration-200
+            pointer-events-none
+            bg-amber-800 text-amber-100 text-sm
+            px-2 py-1 rounded whitespace-nowrap"
+          >
+            Resource return rate required to break even
+            <span className="absolute bottom-full left-1/2 -translate-x-1/2
+              border-4 border-transparent
+              border-b-amber-800"
+            />
+          </span>
         </div>
 
+        <div className="flex flex-row gap-2 justify-center items-center mb-1">
+          <label>Resource 1 req:</label>
+          <div className="text-amber-300">
+            {`${res1AmountTotalWithReturnRate}`}
+          </div>
+        </div>
+
+        <div className="flex flex-row gap-2 justify-center items-center mb-1">
+          <label>Resource 2 req:</label>
+          <div className="text-amber-300">
+            {`${res2AmountTotalWithReturnRate}`}
+          </div>
+        </div>
+
+        <div className="flex flex-row gap-2 justify-center items-center mb-1">
+          <label>"Craft" button presses:</label>
+          <div className="text-amber-300">
+            {`${buttonPressAmount}`}
+          </div>
+        </div>
       </div>
     </div>
   );

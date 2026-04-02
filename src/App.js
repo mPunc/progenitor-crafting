@@ -3,6 +3,7 @@ import './App.css';
 import Header from './components/header';
 import Menu from './components/menu';
 import OneItem from './components/oneItem';
+import Footer from './components/footer';
 
 function App() {
   const [items, setItems] = useState([]);
@@ -32,6 +33,7 @@ function App() {
           <OneItem key={item.id} itemType={item.itemType} isArtifact={item.artifact} tier={item.tier} enchant={item.enchant}/>
         ))}
       </div>
+      <Footer/>
     </div>
   );
 }

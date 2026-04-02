@@ -1,7 +1,7 @@
 {
   "premium": {
-    "true": 0.04,
-    "false": 0.08
+    "true": 4,
+    "false": 8
   },
 
   "fame": {

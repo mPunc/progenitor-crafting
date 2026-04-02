@@ -27,7 +27,7 @@ function App() {
     <div className="min-h-screen min-w-screen bg-neutral-900 text-amber-500 font-barlow">
       <Header/>
       <Menu onAddItem={addItem}/>
-      <div className="flex flex-row flex-wrap gap-4 mx-8 justify-center">
+      <div className="flex flex-row flex-wrap mx-4 justify-center">
         {items.map( item => (
           <OneItem key={item.id} itemType={item.itemType} isArtifact={item.artifact} tier={item.tier} enchant={item.enchant}/>
         ))}

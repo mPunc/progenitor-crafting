@@ -1,5 +1,5 @@
 import { useState } from "react";
-import constants from "../data/constants.json";
+import constants from "../../data/constants.json";
 
 const formatNumber = (num) =>
   Math.floor(Number(num)).toLocaleString();

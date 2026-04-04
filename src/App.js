@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import './App.css';
-import Header from './components/header';
-import Menu from './components/menu';
-import OneItem from './components/oneItem';
-import Footer from './components/footer';
+import Header from './components/features/header';
+import Menu from './components/features/menu';
+import OneItem from './components/features/oneItem';
+import Footer from './components/features/footer';
 
 function App() {
   const [items, setItems] = useState([]);

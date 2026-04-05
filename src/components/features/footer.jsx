@@ -15,7 +15,6 @@ function Footer() {
         and are NOT updated in real time so that's why I decided to make a calc
         that takes more inputs, but is 100% accurate for those inputs.
         You are free to use the est. market value or other tools to get your prices :)
-
       </p>
       <div className="italic text-amber-300">-Progenitor (EU server)</div>
     </div>

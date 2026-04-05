@@ -1,5 +1,6 @@
 import { useState } from "react";
 import constants from "../../data/constants.json";
+import InputWithLabel from "../ui/inputWithLabel";
 
 const formatNumber = (num) =>
   Math.floor(Number(num)).toLocaleString();
@@ -16,7 +17,7 @@ const getTax = (havePremium) => {
   return constants.premium[String(havePremium)];
 };
 
-function OneItem({ itemType, isArtifact, tier, enchant }) {
+function CraftedItem({ itemType, isArtifact, tier, enchant }) {
   const [res1Amount, setRes1Amount] = useState(0);
   const [res1Price, setRes1Price] = useState(0);
   const [res2Amount, setRes2Amount] = useState(0);
@@ -131,116 +132,80 @@ function OneItem({ itemType, isArtifact, tier, enchant }) {
         
         {/* add duplicate button, add delete button */}
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Resource 1:</label>
-          <input
-            type="number"
+        <div className="flex flex-row gap-2 justify-center items-center mb-1" >
+          <InputWithLabel
+            labelText="Resource 1:"
+            value={res1Amount}
             placeholder="Num"
-            value={res1Amount === 0 ? "" : res1Amount}
-            onChange={(e) => setRes1Amount(e.target.value)}
-            className="bg-zinc-100 text-black w-12 px-2 py-1 rounded"
+            setterFunction={setRes1Amount}
+            extra="X"
           />
-          <div>X</div>
-          <label className="sr-only">Resource 1 value:</label>
-          <input
-            type="number"
-            placeholder="Value"
-            value={res1Price === 0 ? "" : res1Price}
-            onChange={(e) => setRes1Price(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
+          <InputWithLabel
+            value={res1Price}
+            placeholder="Price"
+            setterFunction={setRes1Price}
           />
         </div>
 
-        <div className={ itemType === "armor" ? "hidden" : "flex flex-row gap-2 justify-center items-center mb-1" }>
-          <label>Resource 2:</label>
-          <input
-            type="number"
+        { itemType !== "armor" && 
+        <div className="flex flex-row gap-2 justify-center items-center mb-1" >
+          <InputWithLabel
+            labelText="Resource 2:"
+            value={res2Amount}
             placeholder="Num"
-            value={res2Amount === 0 ? "" : res2Amount}
-            onChange={(e) => setRes2Amount(e.target.value)}
-            className="bg-zinc-100 text-black w-12 px-2 py-1 rounded"
+            setterFunction={setRes2Amount}
+            extra="X"
           />
-          <div>X</div>
-          <label className="sr-only">Resource 2 value:</label>
-          <input
-            type="number"
-            placeholder="Value"
-            value={res2Price === 0 ? "" : res2Price}
-            onChange={(e) => setRes2Price(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
+          <InputWithLabel
+            value={res2Price}
+            placeholder="Price"
+            setterFunction={setRes2Price}
           />
         </div>
+        }
 
-        <div className={ isArtifact ? "flex flex-row gap-2 justify-center items-center mb-1" : "hidden"}>
-          <label>Artifact value:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={artifactPrice === 0 ? "" : artifactPrice}
-            onChange={(e) => setArtifactPrice(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-        </div>
+        { isArtifact &&
+        <InputWithLabel
+          labelText="Artifact price:"
+          value={artifactPrice}
+          setterFunction={setArtifactPrice}
+        />
+        }
 
         <hr className="border-t w-full border-zinc-500 mb-1" />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Item price:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={craftedItemPrice === 0 ? "" : craftedItemPrice}
-            onChange={(e) => setCraftedItemPrice(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-        </div>
+        <InputWithLabel
+          labelText="Market price:"
+          value={craftedItemPrice}
+          setterFunction={setCraftedItemPrice}
+        />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Return rate:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={returnRate === 0 ? "" : returnRate}
-            onChange={(e) => setReturnRate(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-          %
-        </div>
+        <InputWithLabel
+          labelText="Return rate:"
+          value={returnRate}
+          setterFunction={setReturnRate}
+          extra="%"
+        />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Crafting amount:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={craftingAmount === 0 ? "" : craftingAmount}
-            onChange={(e) => setCraftingAmount(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-        </div>
+        <InputWithLabel
+          labelText="Crafting amount:"
+          value={craftingAmount}
+          setterFunction={setCraftingAmount}
+        />
 
         <hr className="border-t w-full border-zinc-500 mb-1" />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Item value:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={itemValue === 0 ? "" : itemValue}
-            onChange={(e) => setItemValue(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-        </div>
+        <InputWithLabel
+          labelText="Item value:"
+          value={itemValue}
+          setterFunction={setItemValue}
+        />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Crafting station tax:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={stationTax === 0 ? "" : stationTax}
-            onChange={(e) => setStationTax(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-        </div>
+        <InputWithLabel
+          labelText="Crafting station tax:"
+          value={stationTax}
+          setterFunction={setStationTax}
+        />
 
         <div className="flex flex-row gap-2 justify-center items-center mb-1">
           <label>Premium:</label>
@@ -254,27 +219,18 @@ function OneItem({ itemType, isArtifact, tier, enchant }) {
 
         <hr className="border-t w-full border-zinc-500 mb-1" />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Empty journal price:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={journalEmptyPrice === 0 ? "" : journalEmptyPrice}
-            onChange={(e) => setJournalEmptyPrice(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-        </div>
+        <InputWithLabel
+          labelText="Empty journal price:"
+          value={journalEmptyPrice}
+          setterFunction={setJournalEmptyPrice}
+        />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Full journal price:</label>
-          <input
-            type="number"
-            placeholder="..."
-            value={journalFullPrice === 0 ? "" : journalFullPrice}
-            onChange={(e) => setJournalFullPrice(e.target.value)}
-            className="bg-zinc-100 text-black w-24 px-2 py-1 rounded"
-          />
-        </div>
+        <InputWithLabel
+          labelText="Full journal price:"
+          value={journalFullPrice}
+          setterFunction={setJournalFullPrice}
+        />
+
       </div>
 
       <div className="flex flex-col items-start border-r border-zinc-500 pr-1 mr-2 mb-4">
@@ -387,4 +343,4 @@ function OneItem({ itemType, isArtifact, tier, enchant }) {
   );
 }
 
-export default OneItem;
+export default CraftedItem;

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import constants from "../../data/constants.json";
 import InputWithLabel from "../ui/inputWithLabel";
+import HorizontalLine from "../ui/horizontalLine";
+import ValueWithLabel from "../ui/valueWithLabel";
 
 const formatNumber = (num) =>
   Math.floor(Number(num)).toLocaleString();
@@ -172,7 +174,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
         />
         }
 
-        <hr className="border-t w-full border-zinc-500 mb-1" />
+        <HorizontalLine/>
 
         <InputWithLabel
           labelText="Market price:"
@@ -193,7 +195,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           setterFunction={setCraftingAmount}
         />
 
-        <hr className="border-t w-full border-zinc-500 mb-1" />
+        <HorizontalLine/>
 
         <InputWithLabel
           labelText="Item value:"
@@ -217,7 +219,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           />
         </div>
 
-        <hr className="border-t w-full border-zinc-500 mb-1" />
+        <HorizontalLine/>
 
         <InputWithLabel
           labelText="Empty journal price:"
@@ -234,69 +236,73 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
       </div>
 
       <div className="flex flex-col items-start border-r border-zinc-500 pr-1 mr-2 mb-4">
-        <div>
-          {res2TotalPrice === 0 && artifactPrice === 0 ? "" : `${formatNumber(res1TotalPrice)} `} 
-          {res2TotalPrice === 0 ? "" : ` + ${formatNumber(res2TotalPrice)} `}
-          {artifactPrice === 0 ? "" : ` + ${formatNumber(artifactPrice)} `}
-          = <span className="text-amber-300">{formatNumber(rawTotal)} (raw cost)</span>
-        </div>
+        <ValueWithLabel
+          value={
+            <>
+              {res2TotalPrice === 0 && artifactPrice === 0 ? null : formatNumber(res1TotalPrice)}
+              {res2TotalPrice === 0 ? null : " + " + formatNumber(res2TotalPrice)}
+              {artifactPrice === 0 ? null : " + " + (formatNumber(artifactPrice))} = {""}
+              <span className="text-amber-300">{formatNumber(rawTotal)} (raw cost)</span>
+            </>
+          }
+          valueColor="darker"
+        />
 
-        <hr className="border-t w-full border-zinc-500 mb-1" />
+        <HorizontalLine/>
 
-        <div className="flex flex-col justify-center items-start mb-1">
-          <label className="underline">Profit for one:</label>
-          <div className="text-amber-300">
-            {`${formatNumber(craftedItemPriceWithTax)} (${fullTax}% tax) - ${formatNumber(craftCostForOne)}`} = <span className="text-amber-100">{`${formatNumber(profitForOne)}`}</span>
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Profit for one:"
+          value={
+            <>
+              {formatNumber(craftedItemPriceWithTax)} ({fullTax}% tax) - {""}
+              {formatNumber(craftCostForOne)} = {""}
+              <span className="text-amber-100">{formatNumber(profitForOne)}</span>
+            </>
+          }
+          valueColor="dark"
+        />
 
-        <div className="flex flex-col justify-center items-start mb-1">
-          <label className="underline">Crafting fee / total nutrition:</label>
-          <div className="text-amber-100">
-            {`${formatNumber(craftingFeeTotal)} / ${formatNumber(nutritionTotal)}`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Crafting fee / total nutrition:"
+          value={`${formatNumber(craftingFeeTotal)} / ${formatNumber(nutritionTotal)}`}
+        />
 
-        <div className="flex flex-col justify-center items-start mb-1">
-          <label className="underline">Profit from items (with tax):</label>
-          <div className={profitFromCrafted < 0 ? "text-red-500" : "text-green-500"}>
-            {`${formatNumber(profitFromCrafted)} (${fullTax}% tax)`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Profit from items (with tax):"
+          value={`${formatNumber(profitFromCrafted)} (${fullTax}% tax)`}
+          valueColor="profit"
+          profitValue={profitFromCrafted}
+        />
 
-        <hr className="border-t w-full border-zinc-500 mb-1" />
+        <HorizontalLine/>
 
-        <div className="flex flex-col justify-center items-start mb-1">
-          <label className="underline">Fame gained (without premium):</label>
-          <div className="text-amber-100">
-            {`${formatNumber(fameTotal)}`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Fame gained (without premium):"
+          value={`${formatNumber(fameTotal)}`}
+        />
 
-        <div className="flex flex-col justify-center items-start mb-1">
-          <label className="underline">Journal amount:</label>
-          <div className="text-amber-100">
-            {`${journalAmount}`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Journals filled:"
+          value={`${journalAmount}`}
+        />
 
-        <div className="flex flex-col justify-center items-start mb-1">
-          <label className="underline">Profit from journals (with tax):</label>
-          <div className={profitFromJournal < 0 ? "text-red-500" : "text-green-500"}>
-            {`${formatNumber(profitFromJournal)} (${fullTax}% tax)`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Profit from journals (with tax):"
+          value={`${formatNumber(profitFromJournal)} (${fullTax}% tax)`}
+          valueColor="profit"
+          profitValue={profitFromJournal}
+        />
 
-        <hr className="border-t w-full border-zinc-500 mb-1" />
+        <HorizontalLine/>
 
-        <div className="flex flex-col justify-center items-start mb-1">
-          <label className="underline">Total profit:</label>
-          <div className={profitTotal < 0 ? "text-red-500" : "text-green-500"}>
-            {`${formatNumber(profitTotal)}`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Total profit:"
+          value={`${formatNumber(profitTotal)}`}
+          valueColor="profit"
+          profitValue={profitTotal}
+        />
 
-        <hr className="border-t w-full border-zinc-500 mb-1" />
+        <HorizontalLine/>
         
         <div className="relative group flex flex-row gap-2 justify-center items-center mb-1">
           <label>RRR:</label>
@@ -318,26 +324,26 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           </span>
         </div>
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Resource 1 req:</label>
-          <div className="text-amber-300">
-            {`${res1AmountTotalWithReturnRate}`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Resource 1 req:"
+          value={`${res1AmountTotalWithReturnRate}`}
+          direction="row"
+          valueColor="dark"
+        />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Resource 2 req:</label>
-          <div className="text-amber-300">
-            {`${res2AmountTotalWithReturnRate}`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText="Resource 2 req:"
+          value={`${res2AmountTotalWithReturnRate}`}
+          direction="row"
+          valueColor="dark"
+        />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>"Craft" button presses:</label>
-          <div className="text-amber-300">
-            {`${buttonPressAmount}`}
-          </div>
-        </div>
+        <ValueWithLabel
+          labelText='"Craft" button presses:'
+          value={`${buttonPressAmount}`}
+          direction="row"
+          valueColor="dark"
+        />
       </div>
     </div>
   );

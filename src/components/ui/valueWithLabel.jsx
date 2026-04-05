@@ -1,5 +1,5 @@
 
-function ValueWithLabel({ labelText = null, value, direction = "col", valueColor = "basic", profitValue = null }) {
+function ValueWithLabel({ labelText = undefined, value, direction = "col", valueColor = "basic", profitValue = undefined }) {
   const directionClasses = {
     col: "flex flex-col justify-center items-start mb-1",
     row: "flex flex-row gap-2 justify-center items-center mb-1"

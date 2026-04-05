@@ -1,23 +1,10 @@
 import { useState } from "react";
-import constants from "../../data/constants.json";
 import InputWithLabel from "../ui/inputWithLabel";
 import HorizontalLine from "../ui/horizontalLine";
 import ValueWithLabel from "../ui/valueWithLabel";
-
-const formatNumber = (num) =>
-  Math.floor(Number(num)).toLocaleString();
-
-const getFame = (tier, enchantment) => {
-  return constants.fame[String(tier)][String(enchantment)];
-};
-
-const getJournal = (tier) => {
-  return constants.journal[String(tier)];
-};
-
-const getTax = (havePremium) => {
-  return constants.premium[String(havePremium)];
-};
+import Tooltip from "../ui/tooltip";
+import { craftingSimulationWorstCase } from "../../utils/craftingSimulation";
+import { formatNumber, getFameCoefficient, getJournal, getTax } from "../../utils/constantGetters";
 
 function CraftedItem({ itemType, isArtifact, tier, enchant }) {
   const [res1Amount, setRes1Amount] = useState(0);
@@ -35,7 +22,6 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
   const [journalFullPrice, setJournalFullPrice] = useState(0);
 
   // calculated helper values:
-
   const res1TotalPrice = res1Amount * res1Price;
   const res2TotalPrice = res2Amount * res2Price;
   const resPriceSum = res1TotalPrice + res2TotalPrice;
@@ -50,10 +36,10 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
   const nutritionForOne = itemValue * 0.1125; // nutrition needed for crafting one item
   const craftingFeeForOne = nutritionForOne * stationTax / 100; // crafting fee for crafting one item
   
-  const fameCoefficient = getFame(tier, enchant); // it works, trust me
+  const fameCoefficient = getFameCoefficient(tier, enchant); // it works, trust me
   const journal = getJournal(tier); // fame required to fill one journal
 
-  const craftCostForOne = (Number(resPriceSum) * (1 - returnRateDecimal)) + Number(artifactPrice) + Number(craftingFeeForOne);
+  const craftCostForOne = (resPriceSum * (1 - returnRateDecimal)) + artifactPrice + craftingFeeForOne;
   const craftedItemPriceWithTax = craftedItemPrice * (1 - fullTaxDecimal);
   const journalFullPriceWithTax = journalFullPrice * (1 - fullTaxDecimal);
 
@@ -64,7 +50,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
   const profitForOne = craftedItemPriceWithTax - craftCostForOne;
   const profitFromCrafted = profitForOne * craftingAmount; // profit from selling crafted items
   
-  const fameTotal = fameCoefficient * (Number(res1Amount) + Number(res2Amount)) * craftingAmount; // total fame gained without premium
+  const fameTotal = fameCoefficient * (res1Amount + res2Amount) * craftingAmount; // total fame gained without premium
   const journalAmount = fameTotal / journal; // how many journals you can fill with this craft
   const profitFromJournal = (journalFullPriceWithTax - journalEmptyPrice) * journalAmount; // profit from filling and selling journals
   
@@ -72,57 +58,12 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
   
   const res1AmountTotal = res1Amount * craftingAmount;
   const res2AmountTotal = res2Amount * craftingAmount;
-
-  // simulates and calculates worst case scenarion of how many times you need to press "craft" in-game
-  const craftSimulationWorstCase = () => {
-    if (craftingAmount <= 1) return [];
-    let productionOutput = 1 / (1 - returnRateDecimal);
-    let x = Math.ceil(res1AmountTotal / productionOutput);
-    let y = Math.ceil(res2AmountTotal / productionOutput);
-    let xr = x; // res 1 required
-    let yr = y; // res 2 required
-    let cat = Math.floor(x / res1Amount); // crafting amount temporary
-    let csum = 0;
-    let pressCount = 0; // craft button press counter
-    console.log(x, y);
-
-    while (x >= res1Amount && y >= res2Amount) {
-      pressCount++;
-      if (cat >= 40) {
-        while (cat >= 40) {
-          csum += 40;
-          console.log("meow");
-          x -= Math.floor(res1Amount * 40 * (1 - returnRateDecimal));
-          y -= Math.floor(res2Amount * 40 * (1 - returnRateDecimal));
-          console.log(x, y);
-          cat -= 40;
-        }
-      }
-      else {
-        csum += cat;
-        x -= Math.floor(res1Amount * cat * (1 - returnRateDecimal));
-        y -= Math.floor(res2Amount * cat * (1 - returnRateDecimal));
-        console.log(x, y);
-        cat = Math.floor(x / res1Amount);
-      }
-    }
-    console.log(pressCount, csum);
-    while (csum < craftingAmount) {
-      pressCount++;
-      csum++;
-      xr += res1Amount - x;
-      yr += res2Amount - y;
-    }
-    console.log(xr, yr);
-    return [xr, yr, pressCount];
-  };
  
   const [res1AmountTotalWithReturnRate, res2AmountTotalWithReturnRate, buttonPressAmount] = 
-    craftingAmount <= 1 ? [res1Amount, res2Amount, 1] : craftSimulationWorstCase();
+    craftingAmount <= 1 ? [res1Amount, res2Amount, 1] : craftingSimulationWorstCase(craftingAmount, returnRateDecimal, res1AmountTotal, res1Amount, res2AmountTotal, res2Amount);
 
   // extra displayed values:
-  
-  const rawTotal = Number(resPriceSum) + Number(artifactPrice); // raw cost of resources, tells you basically nothing
+  const rawTotal = resPriceSum + artifactPrice; // raw cost of resources, tells you basically nothing
 
   const profitFromJournalForOne = profitFromJournal / craftingAmount;
   const requiredReturnRate = 1 - ((craftedItemPriceWithTax + profitFromJournalForOne - artifactPrice - craftingFeeForOne)/resPriceSum); // return rate required to break even, I cooked
@@ -209,15 +150,13 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           setterFunction={setStationTax}
         />
 
-        <div className="flex flex-row gap-2 justify-center items-center mb-1">
-          <label>Premium:</label>
-          <input
-            type="checkbox"
-            checked={havePremium}
-            onChange={e => setHavePremium(e.target.checked)}
-            className="w-4 h-4"
-          />
-        </div>
+        <InputWithLabel
+          labelText="Premium:"
+          type="checkbox"
+          value={havePremium}
+          setterFunction={setHavePremium}
+          extra={<Tooltip text="test tooltip 1 2 3"/>}
+        />
 
         <HorizontalLine/>
 
@@ -239,9 +178,9 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
         <ValueWithLabel
           value={
             <>
-              {res2TotalPrice === 0 && artifactPrice === 0 ? null : formatNumber(res1TotalPrice)}
-              {res2TotalPrice === 0 ? null : " + " + formatNumber(res2TotalPrice)}
-              {artifactPrice === 0 ? null : " + " + (formatNumber(artifactPrice))} = {""}
+              {res2TotalPrice === 0 && artifactPrice === 0 ? undefined : formatNumber(res1TotalPrice)}
+              {res2TotalPrice === 0 ? undefined : " + " + formatNumber(res2TotalPrice)}
+              {artifactPrice === 0 ? undefined : " + " + (formatNumber(artifactPrice))} = {""}
               <span className="text-amber-300">{formatNumber(rawTotal)} (raw cost)</span>
             </>
           }
@@ -331,12 +270,14 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           valueColor="dark"
         />
 
+        { itemType !== "armor" &&
         <ValueWithLabel
           labelText="Resource 2 req:"
           value={`${res2AmountTotalWithReturnRate}`}
           direction="row"
           valueColor="dark"
         />
+        }
 
         <ValueWithLabel
           labelText='"Craft" button presses:'

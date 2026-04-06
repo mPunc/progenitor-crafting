@@ -16,10 +16,10 @@ function InputWithLabel({ labelText = undefined, placeholder = "...", type = "nu
   return (
     <div className="flex flex-row gap-2 justify-center items-center mb-1">
       { labelText && 
-        <div className="relative group">
-          <label className="hover:text-amber-300">{labelText}</label>
-          {tooltip}
-        </div>
+      <div className="relative group">
+        <label className="hover:text-amber-300">{labelText}</label>
+        {tooltip}
+      </div>
       }
       <input
         type={type}

@@ -137,7 +137,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           labelText="Crafting amount:"
           value={craftingAmount}
           setterFunction={setCraftingAmount}
-          tooltip={<Tooltip text="How many of this specific item"/>}
+          tooltip={<Tooltip text="how many of this specific item"/>}
         />
 
         <HorizontalLine/>
@@ -146,14 +146,14 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           labelText="Item value:"
           value={itemValue}
           setterFunction={setItemValue}
-          tooltip={<Tooltip text="In-game value in description of items"/>}
+          tooltip={<Tooltip text="in-game value in description of items"/>}
         />
 
         <InputWithLabel
           labelText="Crafting station tax:"
           value={stationTax}
           setterFunction={setStationTax}
-          tooltip={<Tooltip text="Max 1,000"/>}
+          tooltip={<Tooltip text="max 1000"/>}
         />
 
         <InputWithLabel
@@ -210,6 +210,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
         <ValueWithLabel
           labelText="Crafting fee / total nutrition:"
           value={`${formatNumber(craftingFeeTotal)} / ${formatNumber(nutritionTotal)}`}
+          tooltip={<Tooltip text="total fee in silver / nutrition consumed for crafting" position="top"/>}
         />
 
         <ValueWithLabel
@@ -217,6 +218,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           value={`${formatNumber(profitFromCrafted)} (${fullTax}% tax)`}
           valueColor="profit"
           profitValue={profitFromCrafted}
+          tooltip={<Tooltip text="Are you making money?" position="top"/>}
         />
 
         <HorizontalLine/>
@@ -224,11 +226,13 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
         <ValueWithLabel
           labelText="Fame gained (without premium):"
           value={`${formatNumber(fameTotal)}`}
+          tooltip={<Tooltip text="fame that goes into journals" position="top"/>}
         />
 
         <ValueWithLabel
           labelText="Journals filled:"
           value={`${journalAmount}`}
+          tooltip={<Tooltip text="you can fill this many journals" position="top"/>}
         />
 
         <ValueWithLabel
@@ -236,6 +240,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           value={`${formatNumber(profitFromJournal)} (${fullTax}% tax)`}
           valueColor="profit"
           profitValue={profitFromJournal}
+          tooltip={<Tooltip text="some extra cash" position="top"/>}
         />
 
         <HorizontalLine/>
@@ -245,29 +250,18 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           value={`${formatNumber(profitTotal)}`}
           valueColor="profit"
           profitValue={profitTotal}
+          tooltip={<Tooltip text="MOST IMPORTANT VALUE" position="top"/>}
         />
 
         <HorizontalLine/>
         
-        <div className="relative group flex flex-row gap-2 justify-center items-center mb-1">
-          <label>RRR:</label>
-          <div className="text-amber-300">
-            {`${requiredReturnRate}`}
-          </div>
-          <span className="absolute top-full left-1/2 -translate-x-1/2 mt-1
-            opacity-0 group-hover:opacity-100
-            transition-opacity duration-200
-            pointer-events-none
-            bg-amber-800 text-amber-100 text-sm
-            px-2 py-1 rounded whitespace-nowrap"
-          >
-            Resource return rate required to break even
-            <span className="absolute bottom-full left-1/2 -translate-x-1/2
-              border-4 border-transparent
-              border-b-amber-800"
-            />
-          </span>
-        </div>
+        <ValueWithLabel
+          labelText="RRR:"
+          value={`${requiredReturnRate}`}
+          direction="row"
+          valueColor="dark"
+          tooltip={<Tooltip text="resource return rate required to break even" position="top"/>}
+        />
 
         <ValueWithLabel
           labelText="Resource 1 req:"

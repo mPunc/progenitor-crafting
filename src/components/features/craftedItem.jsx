@@ -7,6 +7,7 @@ import { craftingSimulationWorstCase } from "../../utils/craftingSimulation";
 import { formatNumber, getFameCoefficient, getJournal, getTax } from "../../utils/constantGetters";
 
 function CraftedItem({ itemType, isArtifact, tier, enchant }) {
+  // * group related state into objects
   const [res1Amount, setRes1Amount] = useState(0);
   const [res1Price, setRes1Price] = useState(0);
   const [res2Amount, setRes2Amount] = useState(0);
@@ -21,6 +22,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
   const [journalEmptyPrice, setJournalEmptyPrice] = useState(0);
   const [journalFullPrice, setJournalFullPrice] = useState(0);
 
+  // * move all calculations into a helper
   // calculated helper values:
   const res1TotalPrice = res1Amount * res1Price;
   const res2TotalPrice = res2Amount * res2Price;

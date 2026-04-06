@@ -6,7 +6,7 @@ import Tooltip from "../ui/tooltip";
 import { craftingSimulationWorstCase } from "../../utils/craftingSimulation";
 import { formatNumber, getFameCoefficient, getJournal, getTax } from "../../utils/constantGetters";
 
-function CraftedItem({ itemType, isArtifact, tier, enchant }) {
+function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicate }) {
   // * group related state into objects
   const [res1Amount, setRes1Amount] = useState(0);
   const [res1Price, setRes1Price] = useState(0);
@@ -75,7 +75,13 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
       <div className="flex flex-col items-start border-r border-zinc-500 pr-1 mr-2 mb-4">
         <div className="text-lg text-amber-300 underline italic">{itemType.charAt(0).toUpperCase() + itemType.slice(1)} {tier}.{enchant} {isArtifact ? "(artifact)" : ""}</div>
         
-        {/* add duplicate button, add delete button */}
+        <button className="text-black bg-amber-300 rounded px-1 py-1" onClick={onDelete}>
+          Delete
+        </button>
+
+        <button className="text-black bg-amber-300 rounded px-1 py-1" onClick={onDuplicate}>
+          Duplicate
+        </button>
 
         <div className="flex flex-row gap-2 justify-center items-center mb-1" >
           <InputWithLabel

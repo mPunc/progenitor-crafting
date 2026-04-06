@@ -1,5 +1,5 @@
 
-function InputWithLabel({ labelText = undefined, placeholder = "...", type = "number", value, setterFunction, extra }) {
+function InputWithLabel({ labelText = undefined, placeholder = "...", type = "number", value, setterFunction, extra = undefined, tooltip = undefined }) {
   const inputTypes = {
     number: ["bg-zinc-100 text-black w-24 px-2 py-1 rounded"],
     checkbox: ["w-4 h-4"]
@@ -14,8 +14,13 @@ function InputWithLabel({ labelText = undefined, placeholder = "...", type = "nu
   };
 
   return (
-    <div className="relative group flex flex-row gap-2 justify-center items-center mb-1">
-      { labelText && <label className="hover:text-amber-100">{labelText}</label> }
+    <div className="flex flex-row gap-2 justify-center items-center mb-1">
+      { labelText && 
+        <div className="relative group">
+          <label className="hover:text-amber-300">{labelText}</label>
+          {tooltip}
+        </div>
+      }
       <input
         type={type}
         placeholder={placeholder}

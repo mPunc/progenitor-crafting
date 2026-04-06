@@ -82,6 +82,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
             placeholder="Num"
             setterFunction={setRes1Amount}
             extra="X"
+            tooltip={<Tooltip text="e.g. 16 x 4,400"/>}
           />
           <InputWithLabel
             value={res1Price}
@@ -98,6 +99,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
             placeholder="Num"
             setterFunction={setRes2Amount}
             extra="X"
+            tooltip={<Tooltip text="e.g. 8 x 5,100"/>}
           />
           <InputWithLabel
             value={res2Price}
@@ -121,6 +123,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           labelText="Market price:"
           value={craftedItemPrice}
           setterFunction={setCraftedItemPrice}
+          tooltip={<Tooltip text="e.g. sell order price (silver)"/>}
         />
 
         <InputWithLabel
@@ -134,6 +137,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           labelText="Crafting amount:"
           value={craftingAmount}
           setterFunction={setCraftingAmount}
+          tooltip={<Tooltip text="How many of this specific item"/>}
         />
 
         <HorizontalLine/>
@@ -142,12 +146,14 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           labelText="Item value:"
           value={itemValue}
           setterFunction={setItemValue}
+          tooltip={<Tooltip text="In-game value in description of items"/>}
         />
 
         <InputWithLabel
           labelText="Crafting station tax:"
           value={stationTax}
           setterFunction={setStationTax}
+          tooltip={<Tooltip text="Max 1,000"/>}
         />
 
         <InputWithLabel
@@ -155,7 +161,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant }) {
           type="checkbox"
           value={havePremium}
           setterFunction={setHavePremium}
-          extra={<Tooltip text="test tooltip 1 2 3"/>}
+          tooltip={<Tooltip text="Do you have premium?"/>}
         />
 
         <HorizontalLine/>

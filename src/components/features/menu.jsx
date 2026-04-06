@@ -1,15 +1,13 @@
 import { useState } from "react";
 
-function Menu({ onAddItem, className }) {
+function Menu({ onAddItem }) {
   const [itemType, setItemType] = useState("weapon");
   const [isArtifact, setIsArtifact] = useState(false);
   const [tier, setTier] = useState(4);
   const [enchant, setEnchant] = useState(0);
 
   return (
-    <div className={`flex flex-row justify-center pt-3 pb-3 gap-x-8
-      transition-transform duration-500 ease-in ${className}`}
-    >
+    <div className="flex flex-row justify-center pt-3 pb-3 gap-x-8">
       <select
         value={itemType}
         onChange={(e) => setItemType(e.target.value)}

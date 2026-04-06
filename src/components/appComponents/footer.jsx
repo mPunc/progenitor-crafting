@@ -2,7 +2,7 @@
 function Footer({ className }) {
   return (
     <div className={`max-w-5xl mx-auto flex flex-col justify-center items-center pt-3 pb-3
-      fixed left-0 right-0 bottom-0 transition-transform duration-500 ease-in ${className}`}
+      fixed left-0 right-0 bottom-0 transition-transform duration-500 ease-out ${className}`}
     >
       <div className="underline self-start">This is the crafting calculator for you if:</div>
       <ul className="list-disc mb-2">

@@ -24,7 +24,7 @@ function MainContainer({ className, onItemsChange }) {
     setItems(prevItems => prevItems.filter(item => item.id !== id));
   };
 
-  const duplicateItem = (id) => {
+  const duplicateItem = (id, values) => {
     setItems(prevItems => {
       const itemToCopy = prevItems.find(item => item.id === id);
       if (!itemToCopy) return prevItems;
@@ -32,7 +32,8 @@ function MainContainer({ className, onItemsChange }) {
         ...prevItems,
         {
           ...itemToCopy,
-          id: nextId
+          id: nextId,
+          initialValues: { ...values }
         }
       ];
     });

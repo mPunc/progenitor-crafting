@@ -6,8 +6,10 @@ import Tooltip from "../ui/tooltip";
 import { craftingSimulationWorstCase } from "../../utils/craftingSimulation";
 import { formatNumber, getFameCoefficient, getJournal, getTax } from "../../utils/constantGetters";
 
-function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicate }) {
-  const [values, setValues] = useState({
+function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicate, initialValues = undefined }) {
+  const [values, setValues] = useState(
+    initialValues === undefined ?
+  {
     tier: tier,
     enchant: enchant,
     res1Amount: 0,
@@ -23,7 +25,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
     havePremium: true,
     journalEmptyPrice: 0,
     journalFullPrice: 0
-  });
+  } : initialValues);
 
   const handleSetValues = (field, val) => {
     setValues((prev) => ({
@@ -88,7 +90,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
           Delete
         </button>
 
-        <button className="text-black bg-amber-300 rounded px-1 py-1" onClick={onDuplicate}>
+        <button className="text-black bg-amber-300 rounded px-1 py-1" onClick={() => onDuplicate(values)}>
           Duplicate
         </button>
 

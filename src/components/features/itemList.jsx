@@ -11,7 +11,8 @@ function ItemList({ items = [], onDelete, onDuplicate }) {
           tier={item.tier}
           enchant={item.enchant}
           onDelete={() => onDelete(item.id)}
-          onDuplicate={() => onDuplicate(item.id)}
+          onDuplicate={(values) => onDuplicate(item.id, values)}
+          initialValues={item.initialValues}
         />
       ))}
     </div>

@@ -3,7 +3,7 @@ import CraftedItem from "./craftedItem";
 function ItemList({ items = [], onDelete, onDuplicate }) {
   return (
     <div className="flex flex-row flex-wrap justify-center">
-      {items.map( item => (
+      { items.map( item =>
         <CraftedItem
           key={item.id}
           itemType={item.itemType}
@@ -14,7 +14,7 @@ function ItemList({ items = [], onDelete, onDuplicate }) {
           onDuplicate={(values) => onDuplicate(item.id, values)}
           initialValues={item.initialValues}
         />
-      ))}
+      )}
     </div>
   );
 }

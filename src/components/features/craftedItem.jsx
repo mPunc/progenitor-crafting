@@ -84,7 +84,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
 
   return (
     <div className="flex flex-row flex-wrap">
-      <div className="flex flex-col items-start border-r border-zinc-500 pr-1 mr-2 mb-4">
+      <div className="flex flex-col items-start gap-y-1 border-r border-zinc-500 pr-1 mr-2 mb-4">
         <div className="flex flex-row gap-2 justify-evenly w-full items-center mb-1" >
           <div className="text-lg text-amber-300 underline italic">{itemType.charAt(0).toUpperCase() + itemType.slice(1)} {values.tier}.{values.enchant} {isArtifact ? "(artifact)" : ""}</div>
           <Button text="Delete" onClick={onDelete}/>
@@ -196,7 +196,7 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
 
       </div>
 
-      <div className="flex flex-col items-start border-r border-zinc-500 pr-1 mr-2 mb-4">
+      <div className="flex flex-col items-start gap-y-0.5 border-r border-zinc-500 pr-1 mr-2 mb-4">
         <ValueWithLabel
           value={
             <>

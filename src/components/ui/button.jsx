@@ -7,7 +7,7 @@ function Button({text, onClick, color = "base"}) {
 
   return (
     <button
-      className={`text-black border border-black rounded-lg px-2 py-1 transition-colors ${colorOptions[color]}`}
+      className={`text-black text-nowrap border border-black rounded-lg px-2 py-1 transition-colors ${colorOptions[color]}`}
       onClick={onClick}
     >
       {text}

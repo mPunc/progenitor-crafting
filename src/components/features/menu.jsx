@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Button from "../ui/button";
 
 function Menu({ onAddItem }) {
   const [itemType, setItemType] = useState("weapon");
@@ -58,12 +59,7 @@ function Menu({ onAddItem }) {
         </select>
       </label>
 
-      <button
-        onClick={() => onAddItem(itemType, isArtifact, tier, enchant)}
-        className="rounded-lg px-2 py-1 border border-black bg-green-500 text-black hover:bg-green-100 hover:text-black transition-colors"
-      >
-        Add Item
-      </button>
+      <Button text="Add Item" color="green" onClick={() => onAddItem(itemType, isArtifact, tier, enchant)}/>
     </div>
   );
 }

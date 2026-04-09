@@ -3,8 +3,9 @@ import InputWithLabel from "../ui/inputWithLabel";
 import HorizontalLine from "../ui/horizontalLine";
 import ValueWithLabel from "../ui/valueWithLabel";
 import Tooltip from "../ui/tooltip";
+import Button from "../ui/button";
 import { craftingSimulationWorstCase } from "../../utils/craftingSimulation";
-import { formatNumber, getFameCoefficient, getJournal, getTax } from "../../utils/constantGetters";
+import { formatNumber, getFameCoefficient, getJournalCapacity, getMarketTax, getSellOrderTax, getNutritionCoefficient } from "../../utils/constantGetters";
 
 function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicate, initialValues = undefined }) {
   const [values, setValues] = useState(
@@ -39,18 +40,18 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
   const res2TotalPrice = values.res2Amount * values.res2Price;
   const resPriceSum = res1TotalPrice + res2TotalPrice;
   
-  const sellTax = getTax(values.havePremium); // gets 4% or 8% based on premium status
-  const orderTax = 2.5; // always 2.5%
+  const sellTax = getMarketTax(values.havePremium); // gets 4% or 8% based on premium status
+  const orderTax = getSellOrderTax(); // always 2.5%
   const fullTax = sellTax + orderTax; // full tax for using market, sell order (6.5% or 10.5%)
   
   const fullTaxDecimal = fullTax / 100; // use for cleaner expressions
   const returnRateDecimal = values.returnRate / 100; // use for cleaner expressions
   
-  const nutritionForOne = values.itemValue * 0.1125; // nutrition needed for crafting one item
+  const nutritionForOne = values.itemValue * getNutritionCoefficient(); // nutrition needed for crafting one item
   const craftingFeeForOne = nutritionForOne * values.stationTax / 100; // crafting fee for crafting one item
   
   const fameCoefficient = getFameCoefficient(values.tier, values.enchant); // it works, trust me
-  const journal = getJournal(values.tier); // fame required to fill one journal
+  const journal = getJournalCapacity(values.tier); // fame required to fill one journal
 
   const craftCostForOne = (resPriceSum * (1 - returnRateDecimal)) + values.artifactPrice + craftingFeeForOne;
   const craftedItemPriceWithTax = values.craftedItemPrice * (1 - fullTaxDecimal);
@@ -84,15 +85,11 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
   return (
     <div className="flex flex-row flex-wrap">
       <div className="flex flex-col items-start border-r border-zinc-500 pr-1 mr-2 mb-4">
-        <div className="text-lg text-amber-300 underline italic">{itemType.charAt(0).toUpperCase() + itemType.slice(1)} {values.tier}.{values.enchant} {isArtifact ? "(artifact)" : ""}</div>
-        
-        <button className="text-black bg-amber-300 rounded px-1 py-1" onClick={onDelete}>
-          Delete
-        </button>
-
-        <button className="text-black bg-amber-300 rounded px-1 py-1" onClick={() => onDuplicate(values)}>
-          Duplicate
-        </button>
+        <div className="flex flex-row gap-2 justify-evenly w-full items-center mb-1" >
+          <div className="text-lg text-amber-300 underline italic">{itemType.charAt(0).toUpperCase() + itemType.slice(1)} {values.tier}.{values.enchant} {isArtifact ? "(artifact)" : ""}</div>
+          <Button text="Delete" onClick={onDelete}/>
+          <Button text="Duplicate" onClick={() => onDuplicate(values)}/>
+        </div>
 
         <div className="flex flex-row gap-2 justify-center items-center mb-1" >
           <InputWithLabel

@@ -57,10 +57,10 @@
   "resourceAmounts" : {
     "weapon 2H" : [20, 12, 32, 0],
     "weapon 1H" : [16, 8, 24, 0],
-    "armor" : [16, 8],
-    "off-hand" : [4],
-    "bag" : [8],
-    "cape" : [4]
+    "armor" : [16, 8, 0],
+    "off-hand" : [4, 0],
+    "bag" : [8, 0],
+    "cape" : [4, 0]
   },
 
   "itemValueCoefficient" : [],

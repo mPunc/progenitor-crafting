@@ -1,8 +1,5 @@
 import constants from "../data/constants.json";
 
-// just a number formatter
-export const formatNumber = (num) => Math.floor(Number(num)).toLocaleString();
-
 export const getMarketTax = (havePremium) => constants.premium[String(havePremium)];
 
 export const getSellOrderTax = () => constants.sellOrderTax;

@@ -4,7 +4,7 @@ import DropdownWithLabel from "../ui/dropdownWithLabel";
 import InputWithLabel from "../ui/inputWithLabel";
 
 function Menu({ onAddItem }) {
-  const [itemType, setItemType] = useState("weapon");
+  const [itemType, setItemType] = useState("weapon 2H");
   const [isArtifact, setIsArtifact] = useState(false);
   const [tier, setTier] = useState(4);
   const [enchant, setEnchant] = useState(0);
@@ -14,8 +14,25 @@ function Menu({ onAddItem }) {
       <DropdownWithLabel
         labelText="Item type:"
         setterFunction={setItemType}
-        values={["weapon", "armor", "bag"]}
+        values={["weapon 2H", "weapon 1H", "armor", "off-hand", "bag", "cape"]}
         selected={itemType}
+        fontWeight="semibold"
+      />
+
+      <DropdownWithLabel
+        labelText="Tier:"
+        setterFunction={(e) => setTier(Number(e))}
+        values={[4, 5, 6, 7, 8]}
+        selected={tier}
+        fontWeight="semibold"
+      />
+
+      <DropdownWithLabel
+        labelText="Enchant:"
+        setterFunction={(e) => setEnchant(Number(e))}
+        selected={enchant}
+        values={[0, 1, 2, 3, 4]}
+        fontWeight="semibold"
       />
 
       <InputWithLabel
@@ -24,20 +41,7 @@ function Menu({ onAddItem }) {
         value={isArtifact}
         setterFunction={setIsArtifact}
         border
-      />
-
-      <DropdownWithLabel
-        labelText="Tier:"
-        setterFunction={setTier}
-        values={[4, 5, 6, 7, 8]}
-        selected={tier}
-      />
-
-      <DropdownWithLabel
-        labelText="Enchant:"
-        setterFunction={setEnchant}
-        selected={enchant}
-        values={[0, 1, 2, 3, 4]}
+        fontWeight="semibold"
       />
 
       <Button text="Add Item" color="green" onClick={() => onAddItem(itemType, isArtifact, tier, enchant)}/>

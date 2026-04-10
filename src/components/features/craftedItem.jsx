@@ -5,15 +5,19 @@ import ValueWithLabel from "../ui/valueWithLabel";
 import Tooltip from "../ui/tooltip";
 import Button from "../ui/button";
 import { craftingSimulationWorstCase } from "../../utils/craftingSimulation";
-import { formatNumber, getFameCoefficient, getJournalCapacity, getMarketTax, getSellOrderTax, getNutritionCoefficient } from "../../utils/constantGetters";
+import { getFameCoefficient, getJournalCapacity, getMarketTax, getSellOrderTax, getNutritionCoefficient, getResourceAmounts } from "../../utils/constantGetters";
+import { formatNumber, capitalize } from "../../utils/displayFormatters";
+import DropdownWithLabel from "../ui/dropdownWithLabel";
 
 function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicate, initialValues = undefined }) {
+  const resourceAmounts = getResourceAmounts(itemType);
+
   const [values, setValues] = useState(
     initialValues === undefined ?
   {
     tier: tier,
     enchant: enchant,
-    res1Amount: 0,
+    res1Amount: Number(resourceAmounts[0]),
     res1Price: 0,
     res2Amount: 0,
     res2Price: 0,
@@ -86,20 +90,20 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
     <div className="flex flex-row flex-wrap">
       <div className="flex flex-col items-start gap-y-1 border-r border-zinc-500 pr-1 mr-2 mb-4">
         <div className="flex flex-row gap-2 justify-evenly w-full items-center mb-1" >
-          <div className="text-lg text-amber-300 underline italic">{itemType.charAt(0).toUpperCase() + itemType.slice(1)} {values.tier}.{values.enchant} {isArtifact ? "(artifact)" : ""}</div>
-          <Button text="Delete" onClick={onDelete}/>
+          <div className="text-lg text-amber-300 underline italic">{capitalize(itemType)} {values.tier}.{values.enchant} {isArtifact ? "(artifact)" : ""}</div>
           <Button text="Duplicate" onClick={() => onDuplicate(values)}/>
+          <Button text="Delete" color="red" onClick={onDelete}/>
         </div>
 
         <div className="flex flex-row gap-2 justify-center items-center mb-1" >
-          <InputWithLabel
+          <DropdownWithLabel
             labelText="Resource 1:"
-            value={values.res1Amount}
-            placeholder="Num"
-            setterFunction={(val) => handleSetValues("res1Amount", val)}
-            extra="X"
-            tooltip={<Tooltip text="e.g. 16 x 4,400"/>}
+            setterFunction={(val) => handleSetValues("res1Amount", Number(val))}
+            values={resourceAmounts}
+            selected={values.res1Amount}
+            color="white"
           />
+          X
           <InputWithLabel
             value={values.res1Price}
             placeholder="Price"
@@ -109,14 +113,14 @@ function CraftedItem({ itemType, isArtifact, tier, enchant, onDelete, onDuplicat
 
         { itemType !== "armor" && 
         <div className="flex flex-row gap-2 justify-center items-center mb-1" >
-          <InputWithLabel
+          <DropdownWithLabel
             labelText="Resource 2:"
-            value={values.res2Amount}
-            placeholder="Num"
-            setterFunction={(val) => handleSetValues("res2Amount", val)}
-            extra="X"
-            tooltip={<Tooltip text="e.g. 8 x 5,100"/>}
+            setterFunction={(val) => handleSetValues("res2Amount", Number(val))}
+            values={resourceAmounts}
+            selected={values.res2Amount}
+            color="white"
           />
+          X
           <InputWithLabel
             value={values.res2Price}
             placeholder="Price"

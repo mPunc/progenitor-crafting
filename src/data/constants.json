@@ -55,8 +55,8 @@
   "resourceTypes" : ["bars", "leather", "cloth", "planks"],
 
   "resourceAmounts" : {
-    "weapon 2H" : [20, 12, 32],
-    "weapon 1H" : [16, 8, 24],
+    "weapon 2H" : [20, 12, 32, 0],
+    "weapon 1H" : [16, 8, 24, 0],
     "armor" : [16, 8],
     "off-hand" : [4],
     "bag" : [8],

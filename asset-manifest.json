@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/progenitor-crafting/static/css/main.c0b6a0f4.css",
-    "main.js": "/progenitor-crafting/static/js/main.0204327e.js",
+    "main.css": "/progenitor-crafting/static/css/main.c14ed2a7.css",
+    "main.js": "/progenitor-crafting/static/js/main.663c0675.js",
     "index.html": "/progenitor-crafting/index.html",
-    "main.c0b6a0f4.css.map": "/progenitor-crafting/static/css/main.c0b6a0f4.css.map",
-    "main.0204327e.js.map": "/progenitor-crafting/static/js/main.0204327e.js.map"
+    "main.c14ed2a7.css.map": "/progenitor-crafting/static/css/main.c14ed2a7.css.map",
+    "main.663c0675.js.map": "/progenitor-crafting/static/js/main.663c0675.js.map"
   },
   "entrypoints": [
-    "static/css/main.c0b6a0f4.css",
-    "static/js/main.0204327e.js"
+    "static/css/main.c14ed2a7.css",
+    "static/js/main.663c0675.js"
   ]
 }

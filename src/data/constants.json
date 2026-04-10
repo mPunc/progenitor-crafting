@@ -1,10 +1,12 @@
 {
-  "premium": {
-    "true": 4,
-    "false": 8
+  "premium" : {
+    "true" : 4,
+    "false" : 8
   },
 
-  "fame": {
+  "sellOrderTax" : 2.5,
+
+  "fameCoefficient" : {
     "4" : {
       "0" : 22.5,
       "1" : 45,
@@ -42,12 +44,27 @@
     }
   },
 
-  "journal" : {
+  "journalCapacity" : {
     "4" : 3600,
     "5" : 7200,
     "6" : 14400,
     "7" : 28380,
     "8" : 58590
-  }
+  },
+
+  "resourceTypes" : ["bars", "leather", "cloth", "planks"],
+
+  "resourceAmounts" : {
+    "weapon 2H" : [20, 12, 32, 0],
+    "weapon 1H" : [16, 8, 24, 0],
+    "armor" : [16, 8],
+    "off-hand" : [4],
+    "bag" : [8],
+    "cape" : [4]
+  },
+
+  "itemValueCoefficient" : [],
+
+  "nutritionCoefficient" : 0.1125
 
 }
